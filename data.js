@@ -30,6 +30,12 @@ const todos = [
 		description :
 			'Node Backend along Dev + Operation and CI Deployment.'
 	}
+	{
+		id          : '6',
+		title       : 'Node and Dev Ops',
+		description :
+			'Node Backend along Dev + Operation and CI Deployment.'
+	}
 ];
 
 module.exports = todos;
