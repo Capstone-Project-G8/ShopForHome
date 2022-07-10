@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.16",
     "nodemailer": "^6.4.16",
+    "path": "^0.12.7",
     "stripe": "^8.128.0",
     "validator": "^13.1.17",
     "yarn": "^1.22.19"

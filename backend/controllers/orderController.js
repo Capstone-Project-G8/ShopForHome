@@ -6,7 +6,7 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
-const user = require('../models/user');
+const User = require('../models/user');
 // Create a new order   =>  /api/v1/order/new
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     const {
@@ -84,7 +84,6 @@ exports.allOrders = catchAsyncErrors(async (req, res, next) => {
 // Update / Process order - ADMIN  =>   /api/v1/admin/order/:id
 exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
     const order = await Order.findById(req.params.id)
-    console.log('start updated')
     if (order.orderStatus === 'Delivered') {
         return next(new ErrorHandler('You have already delivered this order', 400))
     }
@@ -127,50 +126,43 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
 })
 
 
-//send mail when stock is less than 10
+// send mail when stock is less than 10
 exports.sendStockMail = catchAsyncErrors(async (req,res,next)=>{
     try{
-        console.log('mailstart')
+
+        console.log('mail process started')
         const admin = "jayashree.dasari2000@gmail.com"
-        console.log('stock' + req.body)
-                await sendEmail({
+        // const admin = await User.findOne({role: 'admin'}).email;
+        console.log('adminrole is'+ admin)
+        let details='';
+        req.body.forEach(async(item,index) => {
+        const product = await Product.findById(item);
+        if(product.stock<=10 ){
+            console.log('inside if'+ product.stock)
+            details+=`ID: ${product._id} Name: ${product.name} Available Stock: ${product.stock}\n`;
+        }
+        if(details.length>0 && index===req.body.length-1){
+            console.log('mail has been sent')
+            await sendEmail({
                 email: admin,
                 subject: "ShopForHome Stock Update",
-                message:'please update your stock',
-                })
-                console.log('mailend')
+                message: details ,
+            })
+        }
+        })
+       
+        
+       console.log('mail process done')
     res.status(200).json({
         success:true,
-        message: `Email sent to ${'jayashree'}`,
-    });}
+        message: `Email sent to ${'admin'}`,
+    });
+}
     catch(error){
         return next(new ErrorHandler(error.message,500));    
     }
 });
 
 
-    //  exports.sendStockMail = catchAsyncErrors(async(req,res,next)=>{
-    //     const admin = "jayashree.dasari2000@gmail.com"
-    //     // await User.findOne({ email: req.body.email });
-    //     console.log(req.body)
-    
-    //     // let outOfStock= 0;
-    //     // products.forEach((product) => {
-    //     // if (product.stock <= 10 || outOfStock==0) {
-    //     //     const message = `This product ${product.name} is empty.`;
-    //     //     try {
-    //     //       await sendEmail({
-    //     //         email: admin.email,
-    //     //         subject: "ShopForHome Stock Update",
-    //     //         message,
-    //     //        });
-    
-    //         res.status(200).json({
-    //             success: true,
-    //             message: `Email sent to: ${'jayashree'}`,
-    //         });
-    //         } catch (error) {
-    //             return next(new ErrorHandler(error.message, 500));
-    //         }
-    //      } );
-    
+
+   
