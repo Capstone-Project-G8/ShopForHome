@@ -126,38 +126,35 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
 })
 
 
-// send mail when stock is less than 10
+// send mail when stock is less than 10 / Process order - ADMIN /api/v1/admin/orders/stock
 exports.sendStockMail = catchAsyncErrors(async (req,res,next)=>{
     try{
 
         console.log('mail process started')
         const admin = "jayashree.dasari2000@gmail.com"
-        // const admin = await User.findOne({role: 'admin'}).email;
-        console.log('adminrole is'+ admin)
         let details='';
         req.body.forEach(async(item,index) => {
         const product = await Product.findById(item);
+        // if stock is less than 10 ==> send restock recommendation mail
         if(product.stock<=10 ){
             console.log('inside if'+ product.stock)
             details+=`ID: ${product._id} Name: ${product.name} Available Stock: ${product.stock}\n`;
         }
         if(details.length>0 && index===req.body.length-1){
-            console.log('mail has been sent')
+
             await sendEmail({
                 email: admin,
-                subject: "ShopForHome Stock Update",
-                message: details ,
+                subject: "ShopForHome ReStock Recommendation",
+                message: 'Your inventory is less than 10 units. Please update the stock of the products listed below  '+ details ,
             })
         }
         })
        
-        
-       console.log('mail process done')
-    res.status(200).json({
-        success:true,
-        message: `Email sent to ${'admin'}`,
-    });
-}
+        res.status(200).json({
+            success:true,
+            message: `Email sent to ${'admin'}`,
+        });
+    }
     catch(error){
         return next(new ErrorHandler(error.message,500));    
     }

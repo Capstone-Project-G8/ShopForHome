@@ -254,3 +254,29 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
         success: true
     })
 })
+
+//bulk upload
+exports.bulkUpload = catchAsyncErrors(async (req, res, next) => {
+  
+    if (!req.files || !req.files.csv) {
+      return next(new ErrorHandler("No file uploaded", 400));
+    }
+    // return res.json(req.files.csv.data);
+    const file = Xlsx.read(req.files.csv.data);
+  
+    const sheets = file.SheetNames;
+    const data = [];
+    for (let i = 0; i < sheets.length; i++) {
+      const sheetname = sheets[i];
+      const sheetData = Xlsx.utils.sheet_to_json(file.Sheets[sheetname]);
+      sheetData.forEach((a) => {
+        a.images = [
+          {
+            public_id: "photo/2015/11/10/14/26/box-1036976_960_720.png",
+            url: "https://cdn.pixabay.com/photo/2015/11/10/14/26/box-1036976_960_720.png",
+          },
+        ];
+        data.push(a);
+      });
+    }
+})
