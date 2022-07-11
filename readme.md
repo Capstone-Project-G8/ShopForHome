@@ -1,12 +1,19 @@
+# ShopForHome
 
 
-![](./screen-caps/01Homepage.jpeg)
+![](./screenshots/homepage.jpeg)
+
+
+# Product details and admin user details
+
+### To get the products and to login as a admin you need to upload the product.json file and users.json file in your mongodb 
+
 Admin Login
 
 ```
 {
-    "email": "admin@gmail.com",
-    "password": "123456"
+    "email": "jayashree.dasari2000@gmail.com",
+    "password": "123456789"
 }
 ```
 
@@ -14,18 +21,36 @@ User Login
 
 ```
 {
-    "email": "user@gmail.com",
-    "password": "123456"
+    "email": "ravi@gmail.com",
+    "password": "123456789"
 }
 ```
 
 (Stripe) Card Payment Details 
 
 ```
-4000 0027 6000 3184
+4242 4242 4242 4242
 Any future Date
 Any three digit
 ```
+![](./screenshots/registerpage.jpeg)
+![](./screenshots/Loginpage.jpeg)
+![](./screenshots/profilepage.jpeg)
+![](./screenshots/dashboard.jpeg)
+![](./screenshots/createproduct.jpeg)
+![](./screenshots/singleproductpage.jpeg)
+![](./screenshots/salesreportpage.jpeg)
+![](./screenshots/stockpage.jpeg)
+![](./screenshots/cartpage.jpeg)
+![](./screenshots/wishlistpage.jpeg)
+![](./screenshots/orderspage.jpeg)
+![](./screenshots/userspage.jpeg)
+![](./screenshots/productpage.jpeg)
+![](./screenshots/shippinginfo.jpeg)
+![](./screenshots/paymentpage.jpeg)
+![](./screenshots/ordersuccess.jpeg)
+
+
 
 ## Usage
 
@@ -48,12 +73,12 @@ CLOUDINARY_API_SECRET =
 STRIPE_SECRET_KEY =
 STRIPE_API_KEY =
 
-SMTP_HOST = smtp.mailtrap.io
-SMTP_PORT = 2525
+SMTP_HOST = smtp.gmail.com
+SMTP_PORT = 587
 SMTP_EMAIL =
 SMTP_PASSWORD =
-SMTP_FROM_EMAIL = noreply@shopit.com
-SMTP_FROM_NAME = ShopIT
+SMTP_FROM_EMAIL = noreply@shopforhome.com
+SMTP_FROM_NAME = ShopForHome
 ```
 
 Install dependencies
@@ -61,6 +86,9 @@ Install dependencies
 ```bash
 npm install
 cd frontend
+npm install
+In seprate terminal open
+cd backend 
 npm install
 ```
 
@@ -77,3 +105,4 @@ For running Client
 ```bash
 npm start
 ```
+
