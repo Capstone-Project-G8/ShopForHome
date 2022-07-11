@@ -1,2 +1,0 @@
-# ShopForHOme-frontend
- react frontend
